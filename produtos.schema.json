@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Catálogo de Pneus",
+  "description": "Array de produtos. produtos.json = Produto[].",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": ["sku", "tipo", "title", "price", "images", "url"],
+    "properties": {
+      "sku": { "type": "string", "description": "Identificador único do produto (chave para deduplicar)." },
+      "tipo": { "type": "string", "enum": ["carro", "moto", "caminhao_onibus"], "description": "Categoria principal." },
+      "title": { "type": "string", "description": "Nome completo do produto." },
+      "brand": { "type": ["string", "null"], "description": "Marca (ex: Pirelli, Michelin)." },
+      "aro": { "type": ["string", "null"], "description": "Aro em polegadas (ex: 16, 17.5)." },
+      "measure": { "type": ["string", "null"], "description": "Medida (ex: 195/55R16, 110/90-17)." },
+      "price": { "type": ["number", "null"], "description": "Preço à vista no momento da coleta (BRL). SNAPSHOT — reveja antes de publicar." },
+      "priceOriginal": { "type": ["number", "null"], "description": "Preço cheio/de tabela (BRL)." },
+      "discount": { "type": ["number", "null"], "description": "Desconto em % entre priceOriginal e price." },
+      "installments": {
+        "type": ["object", "null"],
+        "properties": { "count": { "type": "number" }, "value": { "type": "number" } },
+        "description": "Parcelamento anunciado (count x value)."
+      },
+      "emEstoque": { "type": "boolean", "description": "Havia estoque no momento da coleta." },
+      "availability": { "type": ["string", "null"], "enum": ["InStock", "OutOfStock", null] },
+      "rating": {
+        "type": ["object", "null"],
+        "properties": { "value": { "type": "number" }, "count": { "type": "number" } },
+        "description": "Avaliação média e número de reviews (origem: site de coleta)."
+      },
+      "specs": {
+        "type": "object",
+        "description": "Ficha técnica derivada da medida.",
+        "properties": {
+          "larguraMm": { "type": "number", "description": "Largura da seção em mm (medida métrica)." },
+          "perfil": { "type": "number", "description": "Série/perfil (% da largura)." },
+          "larguraPol": { "type": "number", "description": "Largura em polegadas (pneus flotation/off-road)." },
+          "diametroPol": { "type": "number", "description": "Diâmetro em polegadas (pneus flotation/off-road)." },
+          "construcao": { "type": "string", "enum": ["Radial", "Diagonal"] },
+          "aro": { "type": "string" },
+          "indiceCarga": { "type": "string", "description": "Índice de carga (pode ser duplo, ex: 135/133)." },
+          "indiceVelocidade": { "type": "string", "description": "Índice de velocidade (ex: H, V, T)." }
+        }
+      },
+      "description": { "type": ["string", "null"], "description": "Descrição em texto corrido (pt-BR), pronta para a página do produto." },
+      "images": {
+        "type": "array",
+        "items": { "type": "string" },
+        "description": "Caminhos RELATIVOS das imagens dentro deste repo (ex: imagens/10120084/1.webp). A primeira é a principal."
+      },
+      "imageUrls": {
+        "type": "array",
+        "items": { "type": "string" },
+        "description": "URLs originais das imagens (apenas referência; use o campo images, que são arquivos locais)."
+      },
+      "url": { "type": "string", "description": "URL original do produto (referência/proveniência)." }
+    }
+  }
+}
